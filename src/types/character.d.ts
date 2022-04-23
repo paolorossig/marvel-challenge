@@ -6,7 +6,7 @@ export interface Item {
 
 export interface Url {
   type: string
-  urk: string
+  url: string
 }
 
 export interface Collection {
