@@ -28,11 +28,13 @@ function ListCharacters() {
         </div>
       ) : characters.length ? (
         <section className="flex flex-auto flex-col items-start justify-start gap-5">
-          <div className="flex w-full flex-col gap-2">
-            {characters?.map((character) => (
-              <CharacterCard character={character} key={character.id} />
-            ))}
-          </div>
+          <table className="w-full">
+            <tbody className="flex flex-col gap-2">
+              {characters?.map((character) => (
+                <CharacterCard character={character} key={character.id} />
+              ))}
+            </tbody>
+          </table>
           <Pagination />
           <EditModal />
         </section>
