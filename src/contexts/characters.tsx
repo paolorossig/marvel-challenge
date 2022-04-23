@@ -1,5 +1,6 @@
 import { createContext, FC, useState, useContext, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { EditableCharacterProps } from '../types/character'
 import { CharacterContextState, ContextWithChildren } from '../types/context'
 
 const { VITE_API_URL, VITE_API_TS, VITE_API_KEY, VITE_API_HASH } = import.meta
@@ -11,7 +12,18 @@ const initialState: CharacterContextState = {
   characters: [],
   currentPage: 0,
   lastPage: 0,
-  isLoading: false
+  isLoading: false,
+  selected: 0,
+  loadData: () => null,
+  reloadData: () => null,
+  cleanAll: () => null,
+  setPage: () => null,
+  nextPage: () => null,
+  prevPage: () => null,
+  selectCharacter: () => null,
+  editCharacter: () => null,
+  deleteCharacter: () => null,
+  deselect: () => null
 }
 
 const CharactersContext = createContext(initialState)
@@ -25,6 +37,7 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
   const [characters, setCharacters] = useState(initialState.characters)
   const [lastPage, setLastPage] = useState(initialState.lastPage)
   const [isLoading, setIsLoading] = useState(initialState.isLoading)
+  const [selected, setSelected] = useState(initialState.selected)
 
   const getData = async (page: number) => {
     setIsLoading(true)
@@ -61,6 +74,33 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
   const setPage = (page: number) => setSearchParams({ page: page.toString() })
   const prevPage = () => setPage(currentPage - 1)
   const nextPage = () => setPage(currentPage + 1)
+  const deselect = () => setSelected(initialState.selected)
+  const selectCharacter = (characterId: number) => setSelected(characterId)
+  const editCharacter = (
+    characterId: number,
+    changes: EditableCharacterProps
+  ) => {
+    console.log(changes)
+    setCharacters((prev) => {
+      const index = prev.findIndex((el) => el.id === characterId)
+      let char: {
+        name: string
+        comics: { available: number }
+        series: { available: number }
+        stories: { available: number }
+      } = prev.find((el) => el.id === characterId) || {}
+      char['name'] = changes.name
+      char['comics']['available'] = changes.comicsAvailable
+      char['series']['available'] = changes.seriesAvailable
+      char['stories']['available'] = changes.storiesAvailable
+      prev.splice(index, 1, char)
+      return prev
+    })
+  }
+  const deleteCharacter = (characterId: number) =>
+    setCharacters((prev) =>
+      prev.filter((character) => character.id !== characterId)
+    )
 
   return (
     <CharactersContext.Provider
@@ -69,12 +109,17 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
         currentPage,
         lastPage,
         isLoading,
+        selected,
         loadData,
         reloadData,
         cleanAll,
         setPage,
         prevPage,
-        nextPage
+        nextPage,
+        deselect,
+        selectCharacter,
+        editCharacter,
+        deleteCharacter
       }}
     >
       {children}

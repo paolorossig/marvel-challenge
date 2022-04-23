@@ -1,10 +1,12 @@
 import { FaPlay } from 'react-icons/fa'
 import { BsTrash } from 'react-icons/bs'
 import { RiPencilLine } from 'react-icons/ri'
+import { useCharacters } from '../contexts/characters'
 import { Character } from '../types/character'
 
 function CharacterCard({ character }: { character: Character }) {
   const {
+    id: characterId,
     name,
     thumbnail: { path, extension },
     comics: { available: comicsAvailable },
@@ -12,6 +14,10 @@ function CharacterCard({ character }: { character: Character }) {
     stories: { available: storiesAvailable },
     urls
   } = character
+
+  const { selectCharacter, deleteCharacter } = useCharacters()
+  const editHandler = () => selectCharacter(characterId)
+  const deleteHandler = () => deleteCharacter(characterId)
 
   const wikiUrl = urls.find((el) => el.type === 'wiki')?.url
 
@@ -40,11 +46,11 @@ function CharacterCard({ character }: { character: Character }) {
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <button className="btn-icon">
+        <button onClick={editHandler} className="btn-icon">
           edit
           <RiPencilLine className="text-xl text-white" />
         </button>
-        <button className="btn-icon">
+        <button onClick={deleteHandler} className="btn-icon">
           delete
           <BsTrash className="text-xl text-white" />
         </button>

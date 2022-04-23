@@ -10,10 +10,15 @@ export interface CharacterContextState {
   currentPage: number
   lastPage: number
   isLoading: boolean
-  loadData?: () => void
-  reloadData?: () => void
-  cleanAll?: () => void
-  setPage?: (number: number) => void
-  nextPage?: () => void
-  prevPage?: () => void
+  selected: number
+  loadData: () => void
+  reloadData: () => void
+  cleanAll: () => void
+  setPage: (page: number) => void
+  nextPage: () => void
+  prevPage: () => void
+  selectCharacter: (characterId: number) => void
+  editCharacter: (characterId: number, changes: EditableCharacterProps) => void
+  deleteCharacter: (characterId: number) => void
+  deselect: () => void
 }

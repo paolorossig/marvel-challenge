@@ -2,7 +2,6 @@ import { useCharacters } from '../contexts/characters'
 
 function Pagination() {
   const { currentPage, lastPage, prevPage, nextPage } = useCharacters()
-  console.log(currentPage)
 
   return (
     <div className="mx-auto flex w-full items-center justify-between text-sm md:max-w-[400px] md:text-base">

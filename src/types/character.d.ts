@@ -32,3 +32,10 @@ export interface Character {
   events: Collection
   urls: Url[]
 }
+
+export interface EditableCharacterProps {
+  name: string
+  comicsAvailable: number
+  seriesAvailable: number
+  storiesAvailable: number
+}
