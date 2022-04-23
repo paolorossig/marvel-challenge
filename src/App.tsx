@@ -5,10 +5,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="characters" replace />} />
-      <Route path="/characters">
-        <Route index element={<ListCharacters />} />
-        <Route path=":characterId" element={<p>Edit</p>} />
-      </Route>
+      <Route path="/characters" element={<ListCharacters />} />
     </Routes>
   )
 }

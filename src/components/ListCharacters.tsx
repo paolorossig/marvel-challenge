@@ -1,5 +1,6 @@
 import { useCharacters } from '../contexts/characters'
 import CharacterCard from './CharacterCard'
+import EditModal from './EditModal'
 import Pagination from './Pagination'
 import Spinner from './Spinner'
 
@@ -25,7 +26,7 @@ function ListCharacters() {
         <div className="flex flex-auto items-center justify-center">
           <Spinner />
         </div>
-      ) : characters?.length ? (
+      ) : characters.length ? (
         <section className="flex flex-auto flex-col items-start justify-start gap-5">
           <div className="flex w-full flex-col gap-2">
             {characters?.map((character) => (
@@ -33,6 +34,7 @@ function ListCharacters() {
             ))}
           </div>
           <Pagination />
+          <EditModal />
         </section>
       ) : null}
     </main>
