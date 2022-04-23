@@ -1,6 +1,6 @@
 import { createContext, FC, useState, useContext, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { EditableCharacterProps } from '../types/character'
+import { Character, EditableCharacterProps } from '../types/character'
 import { CharacterContextState, ContextWithChildren } from '../types/context'
 
 const { VITE_API_URL, VITE_API_TS, VITE_API_KEY, VITE_API_HASH } = import.meta
@@ -80,20 +80,16 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
     characterId: number,
     changes: EditableCharacterProps
   ) => {
-    console.log(changes)
     setCharacters((prev) => {
       const index = prev.findIndex((el) => el.id === characterId)
-      let char: {
-        name: string
-        comics: { available: number }
-        series: { available: number }
-        stories: { available: number }
-      } = prev.find((el) => el.id === characterId) || {}
-      char['name'] = changes.name
-      char['comics']['available'] = changes.comicsAvailable
-      char['series']['available'] = changes.seriesAvailable
-      char['stories']['available'] = changes.storiesAvailable
-      prev.splice(index, 1, char)
+      let modified: any = prev.find((el) => el.id === characterId) || {}
+
+      modified['name'] = changes.name
+      modified['comics']['available'] = changes.comicsAvailable
+      modified['series']['available'] = changes.seriesAvailable
+      modified['stories']['available'] = changes.storiesAvailable
+
+      prev.splice(index, 1, modified)
       return prev
     })
   }
