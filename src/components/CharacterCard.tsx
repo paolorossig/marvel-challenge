@@ -1,7 +1,7 @@
 import { FaPlay } from 'react-icons/fa'
 import { BsTrash } from 'react-icons/bs'
 import { RiPencilLine } from 'react-icons/ri'
-import type { Character } from '../character'
+import { Character } from '../types/character'
 
 function CharacterCard({ character }: { character: Character }) {
   const {
@@ -9,8 +9,11 @@ function CharacterCard({ character }: { character: Character }) {
     thumbnail: { path, extension },
     comics: { available: comicsAvailable },
     series: { available: seriesAvailable },
-    stories: { available: storiesAvailable }
+    stories: { available: storiesAvailable },
+    urls
   } = character
+
+  const wikiUrl = urls.find((el) => el.type === 'wiki')?.url
 
   return (
     <article className="flex w-full flex-col items-center justify-between gap-4 rounded-xl border-2 border-transparent bg-gray-100 p-4 hover:border-black md:flex-row">
@@ -45,9 +48,15 @@ function CharacterCard({ character }: { character: Character }) {
           delete
           <BsTrash className="text-xl text-white" />
         </button>
-        <button className="ml-2">
-          <FaPlay className="text-3xl" />
-        </button>
+        <a
+          href={wikiUrl}
+          target="_blank"
+          aria-label="Wiki"
+          rel="noopener noreferrer"
+          className="ml-2"
+        >
+          <FaPlay className="text-3xl hover:animate-pulse hover:cursor-pointer hover:text-gray-700" />
+        </a>
       </div>
     </article>
   )
