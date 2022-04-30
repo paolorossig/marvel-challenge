@@ -8,24 +8,22 @@ function CharacterCard({ character }: { character: Character }) {
   const {
     id: characterId,
     name,
-    thumbnail: { path, extension },
-    comics: { available: comicsAvailable },
-    series: { available: seriesAvailable },
-    stories: { available: storiesAvailable },
-    urls
+    imageUrl,
+    comicsAvailable,
+    seriesAvailable,
+    storiesAvailable,
+    wikiUrl
   } = character
 
   const { selectCharacter, deleteCharacter } = useCharacters()
   const editHandler = () => selectCharacter(characterId)
   const deleteHandler = () => deleteCharacter(characterId)
 
-  const wikiUrl = urls.find((el) => el.type === 'wiki')?.url
-
   return (
     <tr className="flex w-full flex-col items-center justify-between gap-4 rounded-xl border-2 border-transparent bg-gray-100 p-4 hover:border-black md:flex-row">
       <th className="flex items-center gap-3">
         <img
-          src={`${path}/portrait_small.${extension}`}
+          src={imageUrl}
           alt="profile"
           className="h-16 w-16 rounded-lg object-cover"
         />

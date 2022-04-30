@@ -67,7 +67,7 @@ function EditModal() {
                 type="number"
                 name="comics"
                 id="comics"
-                defaultValue={selectedCharacter?.comics.available}
+                defaultValue={selectedCharacter?.comicsAvailable}
               />
             </div>
             <div className="flex flex-col">
@@ -76,7 +76,7 @@ function EditModal() {
                 type="number"
                 name="series"
                 id="series"
-                defaultValue={selectedCharacter?.series.available}
+                defaultValue={selectedCharacter?.seriesAvailable}
               />
             </div>
             <div className="flex flex-col">
@@ -85,7 +85,7 @@ function EditModal() {
                 type="number"
                 name="stories"
                 id="stories"
-                defaultValue={selectedCharacter?.stories.available}
+                defaultValue={selectedCharacter?.storiesAvailable}
               />
             </div>
             <div className="mt-2 flex justify-evenly">

@@ -3,8 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Character, EditableCharacterProps } from '../types/character'
 import { CharacterContextState, ContextWithChildren } from '../types/context'
 
-const { VITE_API_URL, VITE_API_TS, VITE_API_KEY, VITE_API_HASH } = import.meta
-  .env
+const apiUrl = import.meta.env.VITE_API_URL
 
 const CHARACTERS_BY_PAGE: number = 20
 
@@ -45,16 +44,13 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
     const offset = (page - 1) * CHARACTERS_BY_PAGE
     const params = new URLSearchParams({
       limit: CHARACTERS_BY_PAGE.toString(),
-      offset: offset.toString(),
-      ts: VITE_API_TS,
-      apikey: VITE_API_KEY,
-      hash: VITE_API_HASH
+      offset: offset.toString()
     })
 
-    const response = await fetch(`${VITE_API_URL}characters?${params}`)
+    const response = await fetch(`${apiUrl}/characters?${params}`)
     const data = await response.json()
-    if (data.code === 200) {
-      setCharacters(data.data.results)
+    if (data.status === 'success') {
+      setCharacters(data.data.characters)
       setLastPage(Math.ceil(data.data.total / CHARACTERS_BY_PAGE))
     }
 
@@ -84,11 +80,7 @@ const CharactersProvider: FC<ContextWithChildren> = ({ children }) => {
       const index = prev.findIndex((el) => el.id === characterId)
       let modified: any = prev.find((el) => el.id === characterId) || {}
 
-      modified['name'] = changes.name
-      modified['comics']['available'] = changes.comicsAvailable
-      modified['series']['available'] = changes.seriesAvailable
-      modified['stories']['available'] = changes.storiesAvailable
-
+      modified = { ...modified, ...changes }
       prev.splice(index, 1, modified)
       return prev
     })
